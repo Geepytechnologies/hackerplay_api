@@ -1,0 +1,67 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+enum Status {
+  FAIL
+  SUCCESS
+}
+enum Difficulty {
+  Easy
+  Medium
+  Hard
+}
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  firstname  String?
+  lastname  String?
+  password  String
+  attempts Attempts[]
+  createdAt           DateTime @default(now())
+}
+
+model Questions{
+  id        Int      @default(autoincrement()) @id
+  title String
+  description String
+  difficulty  Difficulty
+  examples Examples[]
+  constraints Constraints[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Examples{
+  id        Int      @default(autoincrement()) @id
+  question    Questions?    @relation(fields: [questionId], references: [id])
+  questionId  Int?
+  createdAt           DateTime @default(now())
+
+}
+model Constraints{
+  id        Int      @default(autoincrement()) @id
+  description String
+  question    Questions?    @relation(fields: [questionId], references: [id])
+  questionId  Int?
+  createdAt           DateTime @default(now())
+
+}
+
+model Attempts {
+  id        Int      @default(autoincrement()) @id
+  input     String
+  output   String?
+  result   String?
+  status Status @default(SUCCESS)
+  user    User?    @relation(fields: [userId], references: [id])
+  userId  Int?
+  questionId  Int?
+  createdAt           DateTime @default(now())
+}
