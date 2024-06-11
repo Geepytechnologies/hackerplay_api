@@ -16,8 +16,10 @@ export class UserService {
         attempts: true,
       },
     });
-    const { password, ...result } = user[0];
-    return result;
+    if (user.length) {
+      const { password, ...result } = user[0];
+      return result;
+    }
   }
   async findUserByEmail(email: string) {
     return this.prisma.user.findUnique({
