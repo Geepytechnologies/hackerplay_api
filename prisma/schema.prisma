@@ -23,6 +23,7 @@ model User {
   firstname  String?
   lastname  String?
   password  String
+  isAdmin Boolean @default(false)
   attempts Attempts[]
   createdAt           DateTime @default(now())
 }

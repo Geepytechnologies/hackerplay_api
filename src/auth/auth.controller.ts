@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  NotFoundException,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -25,6 +26,9 @@ export class AuthController {
   ): Promise<SigninResponseDTO> {
     const { email, password } = signindto;
     const user = await this.userService.findUserByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
     const isMatch = await bcrypt.compare(password, user?.password);
     if (!isMatch) {
       throw new UnauthorizedException();

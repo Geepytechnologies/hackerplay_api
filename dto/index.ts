@@ -50,3 +50,17 @@ export interface QuestionCreateDTO {
     create?: ConstraintDTO[];
   };
 }
+export class CreateAttemptDto {
+  @ApiProperty({ description: 'input' })
+  input: string;
+  @ApiProperty({ description: 'Output' })
+  output?: string;
+  @ApiProperty({ description: 'result' })
+  result: string;
+  @ApiProperty({ description: 'status' })
+  status: string;
+  @ApiProperty({ description: 'UserId' })
+  userId: number;
+  @ApiProperty({ description: 'QuestionId' })
+  questionId: number;
+}
