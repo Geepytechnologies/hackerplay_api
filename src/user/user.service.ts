@@ -12,14 +12,16 @@ export class UserService {
   }
   async getUsers() {
     const user = await this.prisma.user.findMany({
-      include: {
+      select: {
+        email: true,
+        firstname: true,
+        lastname: true,
+        password: true,
+        isAdmin: true,
         attempts: true,
       },
     });
-    if (user.length) {
-      const { password, ...result } = user[0];
-      return result;
-    }
+    return user;
   }
   async findUserByEmail(email: string) {
     return this.prisma.user.findUnique({
